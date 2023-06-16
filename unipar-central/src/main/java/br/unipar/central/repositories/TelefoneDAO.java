@@ -35,6 +35,7 @@ public class TelefoneDAO {
     
     private static final String FIND_BY_ID = 
             "SELECT "
+                + "id, "
                 + "numero, "
                 + "operadora, "
                 + "ra, "
@@ -72,7 +73,7 @@ public class TelefoneDAO {
         return new Telefone(
                 rs.getInt("id"),
                 rs.getString("numero"),
-                OperadorasEnum.values()[rs.getInt("operadora")],
+                OperadorasEnum.paraEnum(rs.getInt("operadora")),
                 rs.getString("ra"),
                 aServ.findById(rs.getInt("agencia_id")),
                 pServ.findById(rs.getInt("pessoa_id"))
@@ -147,7 +148,7 @@ public class TelefoneDAO {
             
             pstmt.setInt(1, telefone.getId());
             pstmt.setString(2, telefone.getNumero());
-            pstmt.setInt(3, telefone.getOperadora().ordinal());
+            pstmt.setInt(3, telefone.getOperadora().getCodigo());
             pstmt.setString(4, telefone.getRegistroAcademico());
             pstmt.setInt(5, telefone.getAgencia().getId());
             pstmt.setInt(6, telefone.getPessoa().getId());
@@ -180,7 +181,7 @@ public class TelefoneDAO {
             pstmt = conn.prepareStatement(UPDATE);
             
             pstmt.setString(1, telefone.getNumero());
-            pstmt.setInt(2, telefone.getOperadora().ordinal());
+            pstmt.setInt(2, telefone.getOperadora().getCodigo());
             pstmt.setString(3, telefone.getRegistroAcademico());
             pstmt.setInt(4, telefone.getAgencia().getId());
             pstmt.setInt(5, telefone.getPessoa().getId());

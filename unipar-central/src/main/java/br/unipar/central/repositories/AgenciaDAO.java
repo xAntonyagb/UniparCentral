@@ -32,6 +32,7 @@ public class AgenciaDAO {
     
     private static final String FIND_BY_ID = 
             "SELECT "
+                + "id, "
                 + "codigo, "
                 + "digito, "
                 + "razasocial, "

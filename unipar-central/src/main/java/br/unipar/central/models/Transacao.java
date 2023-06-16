@@ -2,30 +2,28 @@ package br.unipar.central.models;
 
 import br.unipar.central.models.enums.TipoTransacaoEnum;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 public class Transacao extends RegistroAcademico {
     private int id;
-    private TipoTransacaoEnum tipo;
-    private LocalDateTime data_hora;
+    private Timestamp data_hora;
     private BigDecimal valor;
-    private String ra;
-    private Conta contaTransferindo;
-    private Conta contaRecebendo;
+    private TipoTransacaoEnum tipo;
+    private Conta contaOrigem;
+    private Conta contaDestino;
 
     public Transacao() {
     }
 
-    public Transacao(int id, TipoTransacaoEnum tipo, LocalDateTime data_hora, BigDecimal valor, String ra, Conta contaTransferindo, Conta contaRecebendo) {
+    public Transacao(int id, Timestamp data_hora, BigDecimal valor, TipoTransacaoEnum tipo, String registroAcademico, Conta contaOrigem, Conta contaDestino) {
+        super(registroAcademico);
         this.id = id;
-        this.tipo = tipo;
         this.data_hora = data_hora;
         this.valor = valor;
-        this.ra = ra;
-        this.contaTransferindo = contaTransferindo;
-        this.contaRecebendo = contaRecebendo;
+        this.tipo = tipo;
+        this.contaOrigem = contaOrigem;
+        this.contaDestino = contaDestino;
     }
-    
     
 //    public void RealizarTransferencia(BigDecimal valTransf){
 //        BigDecimal saldoRecebendo = this.contaRecebendo.getSaldo();
@@ -54,11 +52,11 @@ public class Transacao extends RegistroAcademico {
         this.tipo = tipo;
     }
 
-    public LocalDateTime getData_hora() {
+    public Timestamp getData_hora() {
         return data_hora;
     }
 
-    public void setData_hora(LocalDateTime data_hora) {
+    public void setData_hora(Timestamp data_hora) {
         this.data_hora = data_hora;
     }
 
@@ -70,33 +68,26 @@ public class Transacao extends RegistroAcademico {
         this.valor = valor;
     }
 
-    public String getRa() {
-        return ra;
+    public Conta getContaOrigem() {
+        return contaOrigem;
     }
 
-    public void setRa(String ra) {
-        this.ra = ra;
+    public void setContaOrigem(Conta contaOrigem) {
+        this.contaOrigem = contaOrigem;
     }
 
-    public Conta getContaTransferindo() {
-        return contaTransferindo;
+    public Conta getContaDestino() {
+        return contaDestino;
     }
 
-    public void setContaTransferindo(Conta contaTransferindo) {
-        this.contaTransferindo = contaTransferindo;
-    }
-
-    public Conta getContaRecebendo() {
-        return contaRecebendo;
-    }
-
-    public void setContaRecebendo(Conta contaRecebendo) {
-        this.contaRecebendo = contaRecebendo;
+    public void setContaDestino(Conta contaDestino) {
+        this.contaDestino = contaDestino;
     }
 
     @Override
     public String toString() {
-        return "Transacao{" + "id=" + id + ", tipo=" + tipo + ", data_hora=" + data_hora + ", valor=" + valor + ", ra=" + ra + ", contaTransferindo=" + contaTransferindo + ", contaRecebendo=" + contaRecebendo + '}';
+        return "Transacao{" + "id=" + id + ", data_hora=" + data_hora + ", valor=" + valor + ", tipo=" + tipo + ", contaOrigem=" + contaOrigem + ", contaDestino=" + contaDestino + '}';
     }
+
     
 }

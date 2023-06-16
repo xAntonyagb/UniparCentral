@@ -9,6 +9,7 @@ import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.models.Endereco;
 import br.unipar.central.repositories.EnderecoDAO;
 import static br.unipar.central.utils.qtdDigitos.qtdDigitos;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class EnderecoService {
@@ -113,57 +114,47 @@ public class EnderecoService {
         }        
     }
     
+    public List<Endereco> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Endereco> resultado = enderecoDAO.findAll();
+
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Endereco");
+
+        return resultado;
+    }
     
-    public Endereco findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Endereco retorno = null;
-        
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    
+    public Endereco findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = enderecoDAO.findById(id);
+        Endereco retorno = enderecoDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Endereco");
-
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Endereco");
          
         return retorno;
     }
      
-    public void insert(Endereco endereco) {
-        try {
-            validar(endereco);
+    public void insert(Endereco endereco) throws BancoDeDadosException {
+        validar(endereco);
 
-            enderecoDAO.insert(endereco);
+        enderecoDAO.insert(endereco);
 
-            JOptionPane.showMessageDialog(null, "Endereco Inserido!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Endereco Inserido!");
      }
      
-    public void update(Endereco endereco) {
-        try {
-            validar(endereco);
+    public void update(Endereco endereco) throws BancoDeDadosException {
+        validar(endereco);
 
-            enderecoDAO.update(endereco);
+        enderecoDAO.update(endereco);
 
-            JOptionPane.showMessageDialog(null, "Endereco atualizado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Endereco atualizado!");
     }
      
-    public void delete(int id) {
-        try {
-            enderecoDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        enderecoDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Endereco deleteado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Endereco deleteado!");
     }
 }

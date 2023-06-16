@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 public class Conta extends RegistroAcademico{
     
+    private int id;
     private String numero;
     private String digito;
     private BigDecimal saldo;
@@ -12,8 +13,9 @@ public class Conta extends RegistroAcademico{
     private Agencia agencia;
     private Pessoa proprietario;
 
-    public Conta(String numero, String digito, BigDecimal saldo, TipoContaEnum tipo, Agencia agencia, Pessoa proprietario, String registroAcademico) {
+    public Conta(int id, String numero, String digito, BigDecimal saldo, TipoContaEnum tipo, String registroAcademico, Agencia agencia, Pessoa proprietario) {
         super(registroAcademico);
+        this.id = id;
         this.numero = numero;
         this.digito = digito;
         this.saldo = saldo;
@@ -22,11 +24,21 @@ public class Conta extends RegistroAcademico{
         this.proprietario = proprietario;
     }
 
+    
+
     public Conta() {
     }
 
     public String getNumero() {
         return numero;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setNumero(String numero) {
@@ -75,6 +87,8 @@ public class Conta extends RegistroAcademico{
 
     @Override
     public String toString() {
-        return "Conta{" + "numero=" + numero + ", digito=" + digito + ", saldo=" + saldo + ", tipo=" + tipo + ", agencia=" + agencia + ", proprietario=" + proprietario + '}';
+        return "Conta{" + "id=" + id + ", numero=" + numero + ", digito=" + digito + ", saldo=" + saldo + ", tipo=" + tipo + ", agencia=" + agencia + ", proprietario=" + proprietario + '}';
     }
+
+    
 }

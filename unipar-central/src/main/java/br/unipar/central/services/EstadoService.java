@@ -67,73 +67,46 @@ public class EstadoService {
         }
     }
     
-    public List<Estado> findAll() throws ColunaNaoEncontradaException{
-        List<Estado> resultado = null;
-        
-        try {
-            resultado = estadoDAO.findAll();
+    public List<Estado> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Estado> resultado = estadoDAO.findAll();
 
-            if(resultado == null)
-                throw new ColunaNaoEncontradaException("Estado");
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Estado");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
         return resultado;
     }
     
-    public Estado findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Estado retorno = null;
-        
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    public Estado findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = estadoDAO.findById(id);
+        Estado retorno = estadoDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Estado");
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Estado");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-         
         return retorno;
     }
      
-    public void insert(Estado estado) {
-        try {
-            validar(estado);
+    public void insert(Estado estado) throws BancoDeDadosException {
+        validar(estado);
 
-            estadoDAO.insert(estado);
+        estadoDAO.insert(estado);
 
-            JOptionPane.showMessageDialog(null, "Estado Inserido!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Estado Inserido!");
      }
      
-    public void update(Estado estado) {
-        try {
-            validar(estado);
+    public void update(Estado estado) throws BancoDeDadosException {
+        validar(estado);
 
-            estadoDAO.update(estado);
+        estadoDAO.update(estado);
 
-            JOptionPane.showMessageDialog(null, "Estado atualizado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Estado atualizado!");
     }
      
-    public void delete(int id) {
-        try {
-            estadoDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        estadoDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Estado deleteado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
+        JOptionPane.showMessageDialog(null, "Estado deleteado!");
     }
 }

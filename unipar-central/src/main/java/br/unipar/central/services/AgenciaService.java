@@ -8,6 +8,7 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.models.Agencia;
 import br.unipar.central.repositories.AgenciaDAO;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class AgenciaService {
@@ -68,58 +69,48 @@ public class AgenciaService {
             throw new CampoNaoInformadoException("Digito");
         }
     }
+    
+    public List<Agencia> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Agencia> resultado = agenciaDAO.findAll();
+
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Agencia");
         
-    public Agencia findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Agencia retorno = null;
+        return resultado;
+    }
         
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    public Agencia findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = agenciaDAO.findById(id);
+        Agencia retorno = agenciaDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Agencia");
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Agencia");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-         
         return retorno;
     }
      
-    public void insert(Agencia agencia) {
-        try {
-            validar(agencia);
+    public void insert(Agencia agencia) throws BancoDeDadosException {
+        validar(agencia);
 
-            agenciaDAO.insert(agencia);
+        agenciaDAO.insert(agencia);
 
-            JOptionPane.showMessageDialog(null, "Agencia inserida!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Agencia inserida!");
      }
      
-    public void update(Agencia agencia) {
-        try {
-            validar(agencia);
+    public void update(Agencia agencia) throws BancoDeDadosException {
+        validar(agencia);
 
-            agenciaDAO.update(agencia);
+        agenciaDAO.update(agencia);
 
-            JOptionPane.showMessageDialog(null, "Agencia atualizada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Agencia atualizada!");
     }
      
-    public void delete(int id) {
-        try {
-            agenciaDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        agenciaDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Agencia deleteada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Agencia deleteada!");
     }
 }
 

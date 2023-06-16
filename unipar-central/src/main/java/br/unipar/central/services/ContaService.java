@@ -1,15 +1,26 @@
 package br.unipar.central.services;
 
+import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.exceptions.CampoExcedidoException;
 import br.unipar.central.exceptions.CampoNaoInformadoException;
+import br.unipar.central.exceptions.ColunaNaoEncontradaException;
 import br.unipar.central.exceptions.EntidadeNaoInformadaException;
+import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.exceptions.TransferenciaZeradaException;
 import br.unipar.central.models.Conta;
+import br.unipar.central.repositories.ContaDAO;
 import br.unipar.central.utils.qtdDigitos;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class ContaService {
+    
+    private final ContaDAO contaDAO;
+
+    public ContaService(ContaDAO contaDAO) {
+        this.contaDAO = contaDAO;
+    }
     
     public static void validar(Conta conta) throws 
             EntidadeNaoInformadaException,
@@ -70,5 +81,50 @@ public class ContaService {
         if(qtdDigitos.qtdDigitosDepoisVirgula(conta.getSaldo()) > 2){
             throw new CampoExcedidoException("Número de casas antes a virgula do saldo de uma conta", 2);
         }
+    }
+    
+    
+    public List<Conta> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Conta> resultado = contaDAO.findAll();
+
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Conta");
+
+        return resultado;
+    }
+    
+    public Conta findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
+
+        Conta retorno = contaDAO.findById(id);
+
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Conta");
+         
+        return retorno;
+    }
+     
+    public void insert(Conta conta) throws BancoDeDadosException {
+        validar(conta);
+
+        contaDAO.insert(conta);
+
+        JOptionPane.showMessageDialog(null, "Conta Inserida!");
+
+     }
+     
+    public void update(Conta conta) throws BancoDeDadosException {
+        validar(conta);
+
+        contaDAO.update(conta);
+
+        JOptionPane.showMessageDialog(null, "Conta atualizada!");
+    }
+     
+    public void delete(int id) {
+        contaDAO.delete(id);
+
+        JOptionPane.showMessageDialog(null, "Conta deleteada!");
     }
 }

@@ -1,7 +1,10 @@
 package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
-import br.unipar.central.models.Banco;
+import br.unipar.central.models.Conta;
+import br.unipar.central.models.enums.TipoContaEnum;
+import br.unipar.central.services.AgenciaService;
+import br.unipar.central.services.PessoaService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,59 +13,85 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BancoDAO {
+public class ContaDAO {
+    
     private static final String INSERT = 
-            "INSERT INTO banco"
-                + "(id, nome, ra)"
+            "INSERT INTO conta"
+                + "(id, numero, digito, saldo, tipo, ra, agencia_id, pessoa_id)"
             + " VALUES "
-                + "(?, ?, ?);";
+                + "(?, ?, ?, ?, ?, ?, ?, ?);";
     
     private static final String FIND_ALL = 
             "SELECT "
                 + "id, "
-                + "nome, "
-                + "ra "
-            + "FROM"
-                + "banco;";
+                + "numero, "
+                + "digito, "
+                + "saldo, "
+                + "tipo, "
+                + "ra, "
+                + "agencia_id, "
+                + "pessoa_id "
+            + "FROM "
+                + "conta;";
     
     private static final String FIND_BY_ID = 
             "SELECT "
                 + "id, "
-                + "nome, "
-                + "ra "
+                + "numero, "
+                + "digito, "
+                + "saldo, "
+                + "tipo, "
+                + "ra, "
+                + "agencia_id, "
+                + "pessoa_id "
             + "FROM "
-                + "banco "
+                + "conta "
             + "WHERE id = ?;";
     
     private static final String DELETE_BY_ID = 
             "DELETE FROM "
-                + "banco "
+                + "conta "
             + "WHERE "
                 + "id = ?";
     
     private static final String UPDATE = 
             "UPDATE "
-                + "banco "
+                + "conta "
             + "SET "
-                + "nome = ?, "
-                + "ra = ? "
+                + "numero = ?, "
+                + "digito = ?, "
+                + "saldo = ?, "
+                + "tipo = ?, "
+                + "ra = ?, "
+                + "agencia_id = ?, "
+                + "pessoa_id = ? "
             + "WHERE "
                 + "id = ?";
     
     
+    
     private Connection conn = null;
     
-    private Banco bancoInstance(ResultSet rs) throws SQLException  {
-        return new Banco(
+    private Conta contaInstance(ResultSet rs) throws SQLException  {
+        AgenciaService aServ = new AgenciaService(new AgenciaDAO());
+        PessoaService pServ = new PessoaService(new PessoaDAO());
+        
+        return new Conta(
                 rs.getInt("id"),
-                rs.getString("nome"),
-                rs.getString("ra")  
+                rs.getString("numero"),
+                rs.getString("digito"),
+                rs.getBigDecimal("saldo"),
+                TipoContaEnum.paraEnum(rs.getInt("tipo")),
+                rs.getString("ra"),
+                aServ.findById(rs.getInt("agencia_id")),
+                pServ.findById(rs.getInt("pessoa_id"))
+                 
         );
     }
     
-    public List<Banco> findAll() {
+    public List<Conta> findAll() {
         
-        ArrayList<Banco> retorno = new ArrayList<>();
+        ArrayList<Conta> retorno = new ArrayList<>();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         
@@ -75,7 +104,7 @@ public class BancoDAO {
             rs = pstmt.executeQuery();
             
             while (rs.next()){
-                retorno.add(bancoInstance(rs));
+                retorno.add(contaInstance(rs));
             }
             
         } catch (SQLException e) {
@@ -89,10 +118,10 @@ public class BancoDAO {
         return retorno;
     }
     
-    public Banco findById(int id) {
+    public Conta findById(int id) {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        Banco retorno = null;
+        Conta retorno = null;
         
         try {
             
@@ -103,7 +132,7 @@ public class BancoDAO {
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-                retorno = bancoInstance(rs);
+                retorno = contaInstance(rs);
             }
             
             return retorno;
@@ -118,7 +147,7 @@ public class BancoDAO {
         
     }
     
-    public void insert(Banco banco) {
+    public void insert(Conta conta) {
         PreparedStatement pstmt = null;
         
         try {
@@ -126,9 +155,14 @@ public class BancoDAO {
             conn.setAutoCommit(false);
             pstmt = conn.prepareStatement(INSERT);
 
-            pstmt.setInt(1, banco.getId());
-            pstmt.setString(2, banco.getNome());
-            pstmt.setString(3, banco.getRegistroAcademico());
+            pstmt.setInt(1, conta.getId());
+            pstmt.setString(2, conta.getNumero());
+            pstmt.setString(3, conta.getDigito());
+            pstmt.setBigDecimal(4, conta.getSaldo());
+            pstmt.setInt(5, conta.getTipo().getCodigo());
+            pstmt.setString(6, conta.getRegistroAcademico());
+            pstmt.setInt(7, conta.getAgencia().getId());
+            pstmt.setInt(8, conta.getProprietario().getId());
             
             pstmt.executeUpdate();
             conn.commit();
@@ -146,7 +180,7 @@ public class BancoDAO {
         }
     }
     
-    public void update(Banco banco) {
+    public void update(Conta conta) {
         PreparedStatement pstmt = null;
         
         try {
@@ -156,9 +190,14 @@ public class BancoDAO {
             
             pstmt = conn.prepareStatement(UPDATE);
             
-            pstmt.setString(1, banco.getNome());
-            pstmt.setString(2, banco.getRegistroAcademico());
-            pstmt.setInt(3, banco.getId());
+            pstmt.setString(1, conta.getNumero());
+            pstmt.setString(2, conta.getDigito());
+            pstmt.setBigDecimal(3, conta.getSaldo());
+            pstmt.setInt(4, conta.getTipo().getCodigo());
+            pstmt.setString(5, conta.getRegistroAcademico());
+            pstmt.setInt(6, conta.getAgencia().getId());
+            pstmt.setInt(7, conta.getProprietario().getId());
+            pstmt.setInt(8, conta.getId());
             
             pstmt.executeUpdate();
             conn.commit();

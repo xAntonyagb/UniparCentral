@@ -74,73 +74,48 @@ public class PessoaService {
     }
         
         
-    public List<Pessoa> findAll() throws ColunaNaoEncontradaException{
-        List<Pessoa> resultado = null;
-        
-        try {
-            resultado = pessoaDAO.findAll();
+    public List<Pessoa> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Pessoa> resultado = pessoaDAO.findAll();
 
-            if(resultado == null)
-                throw new ColunaNaoEncontradaException("Pessoa");
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Pessoa");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
         
         return resultado;
     }
     
-    public Pessoa findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Pessoa retorno = null;
-        
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    public Pessoa findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = pessoaDAO.findById(id);
+        Pessoa retorno = pessoaDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Pessoa");
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Pessoa");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-         
         return retorno;
     }
      
-    public void insert(Pessoa pessoa) {
-        try {
-            validar(pessoa);
+    public void insert(Pessoa pessoa) throws BancoDeDadosException {
+        validar(pessoa);
 
-            pessoaDAO.insert(pessoa);
+        pessoaDAO.insert(pessoa);
 
-            JOptionPane.showMessageDialog(null, "Pessoa Inserida!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Pessoa Inserida!");
      }
      
-    public void update(Pessoa pessoa) {
-        try {
-            validar(pessoa);
+    public void update(Pessoa pessoa) throws BancoDeDadosException {
+        validar(pessoa);
 
-            pessoaDAO.update(pessoa);
+        pessoaDAO.update(pessoa);
 
-            JOptionPane.showMessageDialog(null, "Pessoa atualizada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Pessoa atualizada!");
     }
      
-    public void delete(int id) {
-        try {
-            pessoaDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        pessoaDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Pessoa deleteada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Pessoa deleteada!");
     }
     
 }

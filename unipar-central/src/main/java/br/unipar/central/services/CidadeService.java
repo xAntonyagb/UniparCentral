@@ -53,72 +53,47 @@ public class CidadeService {
         }
     }
     
-    public List<Cidade> findAll() throws ColunaNaoEncontradaException{
-        List<Cidade> resultado = null;
-        
-        try {
-            resultado = cidadeDAO.findAll();
+    public List<Cidade> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Cidade> resultado = cidadeDAO.findAll();
 
-            if(resultado == null)
-                throw new ColunaNaoEncontradaException("Cidade");
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Cidade");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
         return resultado;
     }
     
-    public Cidade findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Cidade retorno = null;
-        
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    public Cidade findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = cidadeDAO.findById(id);
+        Cidade retorno = cidadeDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Cidade");
-
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Cidade");
          
         return retorno;
     }
      
-    public void insert(Cidade cidade) {
-        try {
-            validar(cidade);
+    public void insert(Cidade cidade) throws BancoDeDadosException {
+        validar(cidade);
 
-            cidadeDAO.insert(cidade);
+        cidadeDAO.insert(cidade);
 
-            JOptionPane.showMessageDialog(null, "Cidade Inserida!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Cidade Inserida!");
+
      }
      
-    public void update(Cidade cidade) {
-        try {
-            validar(cidade);
+    public void update(Cidade cidade) throws BancoDeDadosException {
+        validar(cidade);
 
-            cidadeDAO.update(cidade);
+        cidadeDAO.update(cidade);
 
-            JOptionPane.showMessageDialog(null, "Cidade atualizada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Cidade atualizada!");
     }
      
     public void delete(int id) {
-        try {
-            cidadeDAO.delete(id);
+        cidadeDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Cidade deleteada!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Cidade deleteada!");
     }
 }

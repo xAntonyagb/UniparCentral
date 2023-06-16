@@ -58,73 +58,47 @@ public class PaisService {
         }
     }
     
-    public List<Pais> findAll() throws ColunaNaoEncontradaException{
-        List<Pais> resultado = null;
-        
-        try {
-            resultado = paisDAO.findAll();
+    public List<Pais> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Pais> resultado = paisDAO.findAll();
 
-            if(resultado == null)
-                throw new ColunaNaoEncontradaException("Pais");
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Pais");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
         
         return resultado;
     }
     
-    public Pais findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Pais retorno = null;
-        
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+    public Pais findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = paisDAO.findById(id);
+        Pais retorno = paisDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Pais");
-
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Pais");
          
         return retorno;
     }
      
-    public void insert(Pais pais) {
-        try {
-            validar(pais);
+    public void insert(Pais pais) throws BancoDeDadosException {
+        validar(pais);
 
-            paisDAO.insert(pais);
+        paisDAO.insert(pais);
 
-            JOptionPane.showMessageDialog(null, "Pais Inserido!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Pais Inserido!");
      }
      
-    public void update(Pais pais) {
-        try {
-            validar(pais);
+    public void update(Pais pais) throws BancoDeDadosException {
+        validar(pais);
 
-            paisDAO.update(pais);
+        paisDAO.update(pais);
 
-            JOptionPane.showMessageDialog(null, "Pais atualizado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Pais atualizado!");
     }
      
-    public void delete(int id) {
-        try {
-            paisDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        paisDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Pais deleteado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        
+        JOptionPane.showMessageDialog(null, "Pais deleteado!");
     }
 }

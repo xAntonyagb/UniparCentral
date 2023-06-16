@@ -8,6 +8,7 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.models.Banco;
 import br.unipar.central.repositories.BancoDAO;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class BancoService {
@@ -41,57 +42,46 @@ public class BancoService {
         }
     }
     
-    
-    public Banco findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException {
-        Banco retorno = null;
+    public List<Banco> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
+        List<Banco> resultado = bancoDAO.findAll();
+
+        if(resultado == null)
+            throw new ColunaNaoEncontradaException("Banco");
         
-         try {
-            if(id <= 0)
-                throw new IdInvalidoException();
+        return resultado;
+    }
+    
+    public Banco findById(int id) throws IdInvalidoException, ColunaNaoEncontradaException, BancoDeDadosException {
+        if(id <= 0)
+            throw new IdInvalidoException();
 
-            retorno = bancoDAO.findById(id);
+        Banco retorno = bancoDAO.findById(id);
 
-            if(retorno == null)
-                throw new ColunaNaoEncontradaException("Banco");
+        if(retorno == null)
+            throw new ColunaNaoEncontradaException("Banco");
 
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-         
         return retorno;
     }
      
-    public void insert(Banco banco) {
-        try {
-            validar(banco);
+    public void insert(Banco banco) throws BancoDeDadosException {
+        validar(banco);
 
-            bancoDAO.insert(banco);
+        bancoDAO.insert(banco);
 
-            JOptionPane.showMessageDialog(null, "Banco inserido!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Banco inserido!");
      }
      
-    public void update(Banco banco) {
-        try {
-            validar(banco);
+    public void update(Banco banco) throws BancoDeDadosException {
+        validar(banco);
 
-            bancoDAO.update(banco);
+        bancoDAO.update(banco);
 
-            JOptionPane.showMessageDialog(null, "Banco atualizado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Banco atualizado!");
     }
      
-    public void delete(int id) {
-        try {
-            bancoDAO.delete(id);
+    public void delete(int id) throws BancoDeDadosException {
+        bancoDAO.delete(id);
 
-            JOptionPane.showMessageDialog(null, "Banco deleteado!");
-        } catch (BancoDeDadosException e){
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+        JOptionPane.showMessageDialog(null, "Banco deleteado!");
     }
 }
