@@ -23,12 +23,13 @@ public class EstadoDAO {
     private static final String DELETE_BY_ID = "DELETE FROM estado "
             + "WHERE id = ?";
     
-    private static final String UPDATE = "UPDATE estado SET nome = ?, sigla = ?, pais_id = ?, ra = ?  WHERE id = ?";
+    private static final String UPDATE = "UPDATE estado SET nome = ?, sigla = ?, pais_id = ?, ra = ? WHERE id = ?";
     
     private Connection conn = null;
     
     private Estado estadoInstance(ResultSet rs) throws SQLException {
-        PaisDAO pDAO = PaisDAO();
+        PaisDAO pDAO = new PaisDAO();
+        
         return new Estado(
             rs.getInt("id"),
             rs.getString("nome"),

@@ -43,9 +43,9 @@ public class EnderecoService {
         }
             
         if(
-            end.getLongradouro() == null || 
-            end.getLongradouro().isEmpty() || 
-            end.getLongradouro().isBlank()
+            end.getLogradouro() == null || 
+            end.getLogradouro().isEmpty() || 
+            end.getLogradouro().isBlank()
         ){
             throw new CampoNaoInformadoException("Logradouro");
         }
@@ -90,7 +90,7 @@ public class EnderecoService {
             throw new CampoExcedidoException("Registro Acadêmico", 8);
         }        
                 
-        if((end.getLongradouro().length() > 120)){
+        if((end.getLogradouro().length() > 120)){
             throw new CampoExcedidoException("Logradouro", 120);
         }
         

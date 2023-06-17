@@ -10,6 +10,9 @@ public class Main {
         int escolhaAcesso = 10;
         int escolhaAcoes = 0;
         
+        JOptionPane.showMessageDialog(null, "Certas buscas por Find All demoram MUITO. Isso se deve a demora para realizar a pesquisas por Id individuais para cada elemento que está vinculado a determinada tabela.\n"
+                + "E como se trata da busca de TODAS as instancias. É comum que a pesquisa demore alguns minutos... Realize devida ação com conciencia.", "Trabalho 2 Bimestre: Aviso", 2);
+        
         do {
             
         String[] opcoesAcesso = {"Pais", "Estado", "Cidade", "Endereço", "Pessoa", "Telefone", "Banco", "Agencia", "Conta", "Transação", "Fechar sistema" };

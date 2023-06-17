@@ -63,9 +63,21 @@ public class BancoUI {
     }
     
     public static Banco findBancoById() {
-        System.out.println(findAllBanco().toString());
-        JOptionPane.showMessageDialog(null, "Os bancos disponiveis no banco de dados foram exibidos no console.", "Bancoes encontrados", 1);
+        String[] opcoesPesquisa = {"Sim", "Não" };
+        int escolhaPesquisa = JOptionPane.showOptionDialog(null, "Deseja exibir todos as linhas do banco de dados no console?\n"
+                + "Será realizada uma busca individual para cada id das linhas da tabela relacionada. A busca é BEM demorada, gostaria de fazer mesmo assim?",
+               "Escolher exibir linhas",
+               JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcoesPesquisa, opcoesPesquisa[1]);
         
+        if(escolhaPesquisa == 0) {
+        try {
+            System.out.println(findAllBanco().toString());
+            JOptionPane.showMessageDialog(null, "Os bancos disponiveis no banco de dados foram exibidos no console.", "Bancoes encontrados", 1);
+        } catch(Exception ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possivel realizar o comando Find All e printar no console. \n", "Erro ao realizar Find All", 0);
+            }
+        }
+            
         int escolha = JOptionPaneService.paneInt("Insira o id do banco:", "Escolha de banco");
         
         Banco banco = null;

@@ -19,7 +19,7 @@ public class EnderecoUI {
         Endereco endereco = new Endereco();
         
         endereco.setId(JOptionPaneService.paneInt("Insira um id", "Criar uma endereço"));
-        endereco.setLongradouro(JOptionPaneService.paneString("Insira um logradouro", "Criar uma endereço"));
+        endereco.setLogradouro(JOptionPaneService.paneString("Insira um logradouro", "Criar uma endereço"));
         endereco.setBairro(JOptionPaneService.paneString("Insira um bairro", "Criar uma endereço"));
         endereco.setNumero(JOptionPaneService.paneInt("Insira o número da casa", "Criar uma endereço"));
         endereco.setCep(JOptionPaneService.paneString("Insira um CEP", "Criar uma endereço"));
@@ -103,9 +103,21 @@ public class EnderecoUI {
     }
     
     public static Endereco findEnderecoById() {
-        System.out.println(findAllEndereco().toString());
-        JOptionPane.showMessageDialog(null, "Os endereços disponiveis no banco de dados foram exibidos no console.", "Enderecos encontrados", 1);
+        String[] opcoesPesquisa = {"Sim", "Não" };
+        int escolhaPesquisa = JOptionPane.showOptionDialog(null, "Deseja exibir todos as linhas do banco de dados no console?\n"
+                + "Será realizada uma busca individual para cada id das linhas da tabela relacionada. A busca é BEM demorada, gostaria de fazer mesmo assim?",
+               "Escolher exibir linhas",
+               JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, opcoesPesquisa, opcoesPesquisa[1]);
         
+        if(escolhaPesquisa == 0) {
+        try {
+            System.out.println(findAllEndereco().toString());
+            JOptionPane.showMessageDialog(null, "Os endereços disponiveis no banco de dados foram exibidos no console.", "Enderecos encontrados", 1);
+        } catch(Exception ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possivel realizar o comando Find All e printar no console. \n", "Erro ao realizar Find All", 0);
+            }
+        }
+            
         int escolha = JOptionPaneService.paneInt("Insira o id do endereço:", "Escolha endereço");
         
         Endereco endereco = null;

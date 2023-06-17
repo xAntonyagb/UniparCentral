@@ -2,7 +2,7 @@ package br.unipar.central.models;
 
 public class Endereco extends RegistroAcademico {
     private int id;
-    private String longradouro;
+    private String logradouro;
     private int numero;
     private String bairro;
     private String cep;
@@ -13,10 +13,10 @@ public class Endereco extends RegistroAcademico {
     public Endereco() {
     }
 
-    public Endereco(int id, String longradouro, int numero, String bairro, String cep, String complemento, Cidade cidade, Pessoa pessoa, String registroAcademico) {
+    public Endereco(int id, String logradouro, int numero, String bairro, String cep, String complemento, Cidade cidade, Pessoa pessoa, String registroAcademico) {
         super(registroAcademico);
         this.id = id;
-        this.longradouro = longradouro;
+        this.logradouro = logradouro;
         this.numero = numero;
         this.bairro = bairro;
         this.cep = cep;
@@ -43,12 +43,12 @@ public class Endereco extends RegistroAcademico {
         this.id = id;
     }
 
-    public String getLongradouro() {
-        return longradouro;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setLongradouro(String longradouro) {
-        this.longradouro = longradouro;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public int getNumero() {
@@ -93,7 +93,7 @@ public class Endereco extends RegistroAcademico {
 
     @Override
     public String toString() {
-        return "Endereco{" + "id=" + id + ", longradouro=" + longradouro + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", cidade=" + cidade + ", pessoa=" + pessoa + '}';
+        return "Endereco{" + "id=" + id + ", logradouro=" + logradouro + ", numero=" + numero + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", cidade=" + cidade + ", pessoa=" + pessoa + '}';
     }
     
 }

@@ -13,14 +13,14 @@ import java.util.List;
 public class EnderecoDAO {
     private static final String INSERT = 
             "INSERT INTO endereco"
-                + "(id, longradouro, numero, bairro, cep, complemento, ra, pessoa_id, cidade_id)"
+                + "(id, logradouro, numero, bairro, cep, complemento, ra, pessoa_id, cidade_id)"
             + " VALUES "
                 + "(?, ?, ?, ?, ?, ?, ?, ?, ?);";
     
     private static final String FIND_ALL = 
             "SELECT "
                 + "id, "
-                + "longradouro, "
+                + "logradouro, "
                 + "numero, "
                 + "bairro, "
                 + "cep, "
@@ -28,13 +28,13 @@ public class EnderecoDAO {
                 + "ra, "
                 + "pessoa_id, "
                 + "cidade_id "
-            + "FROM"
+            + "FROM "
                 + "endereco;";
     
     private static final String FIND_BY_ID = 
             "SELECT "
                 + "id, "
-                + "longradouro, "
+                + "logradouro, "
                 + "numero, "
                 + "bairro, "
                 + "cep, "
@@ -56,7 +56,7 @@ public class EnderecoDAO {
             "UPDATE "
                 + "endereco "
             + "SET "
-                + "longradouro = ?, "
+                + "logradouro = ?, "
                 + "numero = ?, "
                 + "bairro = ?, "
                 + "cep = ?, "
@@ -74,9 +74,10 @@ public class EnderecoDAO {
         
         PessoaDAO pDAO = new PessoaDAO();
         CidadeDAO cDAO = new CidadeDAO();
+        
         return new Endereco(
                 rs.getInt("id"),
-                rs.getString("longradouro"),
+                rs.getString("logradouro"),
                 rs.getInt("numero"),
                 rs.getString("bairro"),
                 rs.getString("cep"),
@@ -154,7 +155,7 @@ public class EnderecoDAO {
             pstmt = conn.prepareStatement(INSERT);
             
             pstmt.setInt(1, endereco.getId());
-            pstmt.setString(2, endereco.getLongradouro());
+            pstmt.setString(2, endereco.getLogradouro());
             pstmt.setInt(3, endereco.getNumero());
             pstmt.setString(4, endereco.getBairro());
             pstmt.setString(5, endereco.getCep());
@@ -189,7 +190,7 @@ public class EnderecoDAO {
             
             pstmt = conn.prepareStatement(UPDATE);
             
-            pstmt.setString(1, endereco.getLongradouro());
+            pstmt.setString(1, endereco.getLogradouro());
             pstmt.setInt(2, endereco.getNumero());
             pstmt.setString(3, endereco.getBairro());
             pstmt.setString(4, endereco.getCep());

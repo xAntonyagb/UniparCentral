@@ -22,7 +22,7 @@ public class BancoDAO {
                 + "id, "
                 + "nome, "
                 + "ra "
-            + "FROM"
+            + "FROM "
                 + "banco;";
     
     private static final String FIND_BY_ID = 

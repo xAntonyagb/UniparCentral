@@ -27,7 +27,7 @@ public class TelefoneDAO {
                 + "ra, "
                 + "agencia_id, "
                 + "pessoa_id "
-            + "FROM"
+            + "FROM "
                 + "telefone;";
     
     private static final String FIND_BY_ID = 
