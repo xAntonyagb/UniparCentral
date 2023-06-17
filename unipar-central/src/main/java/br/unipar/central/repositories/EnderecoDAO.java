@@ -2,8 +2,6 @@ package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Endereco;
-import br.unipar.central.services.CidadeService;
-import br.unipar.central.services.PessoaService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,8 +72,8 @@ public class EnderecoDAO {
     
     private Endereco enderecoInstance(ResultSet rs) throws SQLException  {
         
-        PessoaService pServ = new PessoaService(new PessoaDAO());
-        CidadeService cServ = new CidadeService(new CidadeDAO());
+        PessoaDAO pDAO = new PessoaDAO();
+        CidadeDAO cDAO = new CidadeDAO();
         return new Endereco(
                 rs.getInt("id"),
                 rs.getString("longradouro"),
@@ -83,8 +81,8 @@ public class EnderecoDAO {
                 rs.getString("bairro"),
                 rs.getString("cep"),
                 rs.getString("complemento"),
-                cServ.findById(rs.getInt("cidade_id")),
-                pServ.findById(rs.getInt("pessoa_id")),
+                cDAO.findById(rs.getInt("cidade_id")),
+                pDAO.findById(rs.getInt("pessoa_id")),
                 rs.getString("ra")
         );
     }

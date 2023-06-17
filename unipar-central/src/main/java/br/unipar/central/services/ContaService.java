@@ -8,6 +8,7 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.exceptions.TransferenciaZeradaException;
 import br.unipar.central.models.Conta;
+import br.unipar.central.models.enums.TipoOperacaoEnum;
 import br.unipar.central.repositories.ContaDAO;
 import br.unipar.central.utils.QtdDigitosUtils;
 import java.math.BigDecimal;
@@ -83,7 +84,6 @@ public class ContaService {
         }
     }
     
-    
     public List<Conta> findAll() throws ColunaNaoEncontradaException, BancoDeDadosException {
         List<Conta> resultado = contaDAO.findAll();
 
@@ -127,4 +127,18 @@ public class ContaService {
 
         JOptionPane.showMessageDialog(null, "Conta deleteada!");
     }
+    
+    public void atualizarSaldo(Conta conta, BigDecimal saldoAtualizar, TipoOperacaoEnum operacao) {
+        switch (operacao) {
+        case ENTRADA:
+                conta.setSaldo(conta.getSaldo().add(saldoAtualizar));
+                break;
+        case SAIDA:
+                conta.setSaldo(conta.getSaldo().subtract(saldoAtualizar));
+                break;
+        }
+        
+        update(conta);
+    }
+    
 }

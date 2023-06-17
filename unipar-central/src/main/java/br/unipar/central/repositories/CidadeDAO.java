@@ -2,7 +2,6 @@ package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Cidade;
-import br.unipar.central.services.EstadoService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,11 +28,11 @@ public class CidadeDAO {
     private Connection conn = null;
     
     private Cidade cidadeInstace(ResultSet rs) throws SQLException {
-        EstadoService eServ = new EstadoService(new EstadoDAO());
+        EstadoDAO eDAO = new EstadoDAO();
         return new Cidade(
                 rs.getInt("id"),
                 rs.getString("nome"),
-                eServ.findById(rs.getInt("estado_id")),
+                eDAO.findById(rs.getInt("estado_id")),
                 rs.getString("ra")
         );
     }

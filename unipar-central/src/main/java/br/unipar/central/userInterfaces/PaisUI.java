@@ -2,6 +2,7 @@
 package br.unipar.central.userInterfaces;
 
 import br.unipar.central.models.Pais;
+import br.unipar.central.models.enums.EscolhasUIEnum;
 import br.unipar.central.repositories.PaisDAO;
 import br.unipar.central.services.JOptionPaneService;
 import br.unipar.central.services.PaisService;
@@ -23,16 +24,48 @@ public class PaisUI {
         return pais;
     }
     
+    public static void menuExecucoes(EscolhasUIEnum escolha) {
+        switch (escolha) {
+            case DELETE:
+                deletePais();
+                break;
+                
+            case UPDATE:
+                updatePais();
+                break;
+                
+            case FIND_ALL:
+                List<Pais> lista = findAllPais();
+                
+                if(lista != null){
+                    System.out.println("\n\nResultado Find All:\n" + lista.toString());
+                    JOptionPane.showMessageDialog(null, "O resultado da pesquisa foi printado no console", "Resultado Find All", 1);
+                }
+                break;
+            
+            case FIND_BY_ID:
+                Pais pais = findPaisById();
+                
+                if(pais != null)
+                    JOptionPane.showMessageDialog(null, "O seguinte país foi encontrado:\n" + pais.toString(), "Resultado Find By Id", 1);
+                break;
+                
+            case INSERT:
+                insertPais(criarPais());
+                break;
+        }
+    }
+    
     public static void insertPais(Pais pais) {
         try{
             paisService.insert(pais);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel inserir o país no banco de dados: \n" + ex.getMessage(), "Erro na inserção", 0);
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a adição no banco de dados: \n" + ex.getMessage(), "Erro ao adicionar", 0);
         }
     }
     
     public static Pais findPaisById() {
-        System.out.println(findAllPaises().toString());
+        System.out.println(findAllPais().toString());
         JOptionPane.showMessageDialog(null, "Os paises disponiveis no banco de dados foram exibidos no console.", "Paises encontrados", 1);
         
         int escolha = JOptionPaneService.paneInt("Insira o id do país:", "Escolha de país");
@@ -43,23 +76,48 @@ public class PaisUI {
             
             
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel procurar pelo país no banco de dados: \n" + ex.getMessage(), "Erro ao procurar", 0);
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a pesquisa no banco de dados: \n" + ex.getMessage(), "Erro ao pesquisar", 0);
         }
         
         return pais;
     }
     
-    public static List<Pais> findAllPaises() {
+    public static List<Pais> findAllPais() {
         List<Pais> paises = null;
         
         try {
             paises = paisService.findAll();
         } catch(Exception ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possivel procurar pelos países no banco de dados: \n" + ex.getMessage(), "Erro ao procurar", 0);
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a pesquisa no banco de dados: \n" + ex.getMessage(), "Erro ao pesquisar", 0);
         }
         
         return paises;
     }
     
+    public static void updatePais(){
+        System.out.println(findAllPais().toString());
+        JOptionPane.showMessageDialog(null, "Para atualizar um país será necessario um id de um país que exista e as novas informações dos campos.\n"
+                + "É possivel visualizar os países do banco de dados pelo console.", "Atualizar um país", 1);
+        Pais pais = criarPais();
+        
+        try {
+            paisService.update(pais);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a atualização no banco de dados: \n" + ex.getMessage(), "Erro ao atualizar", 0);
+        }
+    }
+    
+    public static void deletePais(){
+        System.out.println(findAllPais().toString());
+        JOptionPane.showMessageDialog(null, "Para deletar um país será necessario um id de um país que exista.\n"
+                + "É possivel visualizar os países do banco de dados pelo console.", "Deletar um país", 1);
+        int escolha = JOptionPaneService.paneInt("Insira o id do país:", "Escolha de país");
+        
+        try {
+            paisService.delete(escolha);
+        } catch(Exception ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possivel realizar a deleção no banco de dados: \n" + ex.getMessage(), "Erro ao deletar", 0);
+        }
+    }
     
 }

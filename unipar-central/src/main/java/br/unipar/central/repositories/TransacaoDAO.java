@@ -3,7 +3,6 @@ package br.unipar.central.repositories;
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Transacao;
 import br.unipar.central.models.enums.TipoTransacaoEnum;
-import br.unipar.central.services.ContaService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +15,14 @@ public class TransacaoDAO {
     
     private static final String INSERT = 
             "INSERT INTO transacao"
-                + "(id, data_hora, valor, tipo, ra, conta_origem, conta_destino)"
+                + "(id, datahora, valor, tipo, ra, conta_origem, conta_destino)"
             + " VALUES "
                 + "(?, ?, ?, ?, ?, ?, ?);";
     
     private static final String FIND_ALL = 
             "SELECT "
                 + "id, "
-                + "data_hora, "
+                + "datahora, "
                 + "valor, "
                 + "tipo, "
                 + "ra, "
@@ -35,7 +34,7 @@ public class TransacaoDAO {
     private static final String FIND_BY_ID = 
             "SELECT "
                 + "id, "
-                + "data_hora, "
+                + "datahora, "
                 + "valor, "
                 + "tipo, "
                 + "ra, "
@@ -55,7 +54,7 @@ public class TransacaoDAO {
             "UPDATE "
                 + "transacao "
             + "SET "
-                + "data_hora = ?, "
+                + "datahora = ?, "
                 + "valor = ?, "
                 + "tipo = ?, "
                 + "ra = ?, "
@@ -69,15 +68,15 @@ public class TransacaoDAO {
     private Connection conn = null;
     
     private Transacao transacaoInstance(ResultSet rs) throws SQLException  {
-        ContaService cServ = new ContaService(new ContaDAO());
+        ContaDAO cDAO = new ContaDAO();
         return new Transacao(
                 rs.getInt("id"),
-                rs.getTimestamp("data_hora"),
+                rs.getTimestamp("datahora"),
                 rs.getBigDecimal("valor"),
                 TipoTransacaoEnum.paraEnum(rs.getInt("tipo")),
                 rs.getString("ra"),
-                cServ.findById(rs.getInt("conta_origem")),
-                cServ.findById(rs.getInt("conta_destino"))
+                cDAO.findById(rs.getInt("conta_origem")),
+                cDAO.findById(rs.getInt("conta_destino"))
         );
     }
     

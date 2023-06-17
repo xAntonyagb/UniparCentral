@@ -31,6 +31,10 @@ public class Endereco extends RegistroAcademico {
         return pessoa;
     }
 
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
     public int getId() {
         return id;
     }

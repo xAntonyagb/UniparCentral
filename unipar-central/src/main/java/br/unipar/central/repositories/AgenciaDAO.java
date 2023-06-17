@@ -2,7 +2,6 @@ package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Agencia;
-import br.unipar.central.services.BancoService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +13,7 @@ import java.util.List;
 public class AgenciaDAO {
     private static final String INSERT = 
             "INSERT INTO agencia"
-                + "(id, codigo, digito, razasocial, cnpj, ra, banco_id)"
+                + "(id, codigo, digito, razaosocial, cnpj, ra, banco_id)"
             + " VALUES "
                 + "(?, ?, ?, ?, ?, ?, ?);";
     
@@ -23,7 +22,7 @@ public class AgenciaDAO {
                 + "id, "
                 + "codigo, "
                 + "digito, "
-                + "razasocial, "
+                + "razaosocial, "
                 + "cnpj, "
                 + "ra, "
                 + "banco_id "
@@ -35,7 +34,7 @@ public class AgenciaDAO {
                 + "id, "
                 + "codigo, "
                 + "digito, "
-                + "razasocial, "
+                + "razaosocial, "
                 + "cnpj, "
                 + "ra, "
                 + "banco_id "
@@ -55,7 +54,7 @@ public class AgenciaDAO {
             + "SET "
                 + "codigo = ?, "
                 + "digito = ?, "
-                + "razasocial = ?, "
+                + "razaosocial = ?, "
                 + "cnpj = ?, "
                 + "ra = ?, "
                 + "banco_id = ? "
@@ -66,14 +65,14 @@ public class AgenciaDAO {
     private Connection conn = null;
     
     private Agencia agenciaInstance(ResultSet rs) throws SQLException  {
-        BancoService bServ = new BancoService(new BancoDAO());
+        BancoDAO bDAO = new BancoDAO();
         return new Agencia(
                 rs.getInt("id"),
                 rs.getString("codigo"),
                 rs.getString("digito"),
-                rs.getString("razasocial"),
+                rs.getString("razaosocial"),
                 rs.getString("cnpj"),
-                bServ.findById(rs.getInt("banco_id")),
+                bDAO.findById(rs.getInt("banco_id")),
                 rs.getString("ra")  
         );
     }

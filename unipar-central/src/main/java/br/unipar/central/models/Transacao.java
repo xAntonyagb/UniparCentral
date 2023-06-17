@@ -24,17 +24,6 @@ public class Transacao extends RegistroAcademico {
         this.contaOrigem = contaOrigem;
         this.contaDestino = contaDestino;
     }
-    
-//    public void RealizarTransferencia(BigDecimal valTransf){
-//        BigDecimal saldoRecebendo = this.contaRecebendo.getSaldo();
-//        saldoRecebendo = (saldoRecebendo).add(valTransf);
-//                
-//        BigDecimal saldoTransferindo = this.contaTransferindo.getSaldo();
-//        saldoTransferindo = (saldoTransferindo).subtract(valTransf);
-//        
-//        this.contaRecebendo.setSaldo(saldoRecebendo);
-//        this.contaTransferindo.setSaldo(saldoTransferindo);
-//    }
 
     public int getId() {
         return id;

@@ -8,6 +8,8 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.exceptions.TransferenciaZeradaException;
 import br.unipar.central.models.Transacao;
+import br.unipar.central.models.enums.TipoOperacaoEnum;
+import br.unipar.central.repositories.ContaDAO;
 import br.unipar.central.repositories.TransacaoDAO;
 import br.unipar.central.utils.QtdDigitosUtils;
 import java.math.BigDecimal;
@@ -118,6 +120,10 @@ public class TransacaoService {
         validar(transacao);
 
         transacaoDAO.insert(transacao);
+        
+        ContaService contaService = new ContaService(new ContaDAO());
+        contaService.atualizarSaldo(transacao.getContaOrigem(), transacao.getValor(), TipoOperacaoEnum.SAIDA);
+        contaService.atualizarSaldo(transacao.getContaDestino(), transacao.getValor(), TipoOperacaoEnum.ENTRADA);
 
         JOptionPane.showMessageDialog(null, "Transacao Inserida!");
 

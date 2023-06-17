@@ -3,8 +3,6 @@ package br.unipar.central.repositories;
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Conta;
 import br.unipar.central.models.enums.TipoContaEnum;
-import br.unipar.central.services.AgenciaService;
-import br.unipar.central.services.PessoaService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -73,8 +71,8 @@ public class ContaDAO {
     private Connection conn = null;
     
     private Conta contaInstance(ResultSet rs) throws SQLException  {
-        AgenciaService aServ = new AgenciaService(new AgenciaDAO());
-        PessoaService pServ = new PessoaService(new PessoaDAO());
+        AgenciaDAO aDAO = new AgenciaDAO();
+        PessoaDAO pDAO = new PessoaDAO();
         
         return new Conta(
                 rs.getInt("id"),
@@ -83,8 +81,8 @@ public class ContaDAO {
                 rs.getBigDecimal("saldo"),
                 TipoContaEnum.paraEnum(rs.getInt("tipo")),
                 rs.getString("ra"),
-                aServ.findById(rs.getInt("agencia_id")),
-                pServ.findById(rs.getInt("pessoa_id"))
+                aDAO.findById(rs.getInt("agencia_id")),
+                pDAO.findById(rs.getInt("pessoa_id"))
                  
         );
     }

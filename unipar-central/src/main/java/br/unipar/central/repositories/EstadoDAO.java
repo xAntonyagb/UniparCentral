@@ -2,7 +2,6 @@ package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
 import br.unipar.central.models.Estado;
-import br.unipar.central.services.PaisService;
 import br.unipar.central.utils.DataBaseUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -29,12 +28,12 @@ public class EstadoDAO {
     private Connection conn = null;
     
     private Estado estadoInstance(ResultSet rs) throws SQLException {
-        PaisService pServ = new PaisService(new PaisDAO());
+        PaisDAO pDAO = PaisDAO();
         return new Estado(
             rs.getInt("id"),
             rs.getString("nome"),
             rs.getString("sigla"),
-            pServ.findById(rs.getInt("pais_id")),
+            pDAO.findById(rs.getInt("pais_id")),
             rs.getString("ra")
         );
     }
@@ -176,6 +175,10 @@ public class EstadoDAO {
             DataBaseUtils.closePreparedStatment(pstmt);
             DataBaseUtils.closeConnection();
         }
+    }
+
+    private PaisDAO PaisDAO() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }
