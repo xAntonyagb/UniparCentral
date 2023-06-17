@@ -9,7 +9,7 @@ import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.exceptions.TransferenciaZeradaException;
 import br.unipar.central.models.Transacao;
 import br.unipar.central.repositories.TransacaoDAO;
-import br.unipar.central.utils.qtdDigitos;
+import br.unipar.central.utils.QtdDigitosUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -79,11 +79,11 @@ public class TransacaoService {
         }
         
                 
-        if(qtdDigitos.qtdDigitosAntesVirgula(transacao.getValor()) > 15){
+        if(QtdDigitosUtils.qtdDigitosAntesVirgula(transacao.getValor()) > 15){
             throw new CampoExcedidoException("Número de casas após a virgula do valor de uma transferencia", 15);
         }
         
-        if(qtdDigitos.qtdDigitosDepoisVirgula(transacao.getValor()) > 2){
+        if(QtdDigitosUtils.qtdDigitosDepoisVirgula(transacao.getValor()) > 2){
             throw new CampoExcedidoException("Número de casas antes a virgula do valor de uma transferencia", 2);
         }
 

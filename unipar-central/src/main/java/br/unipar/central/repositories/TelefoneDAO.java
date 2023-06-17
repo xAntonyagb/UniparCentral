@@ -1,7 +1,6 @@
 package br.unipar.central.repositories;
 
 import br.unipar.central.exceptions.BancoDeDadosException;
-import br.unipar.central.models.Endereco;
 import br.unipar.central.models.Telefone;
 import br.unipar.central.models.enums.OperadorasEnum;
 import br.unipar.central.services.AgenciaService;

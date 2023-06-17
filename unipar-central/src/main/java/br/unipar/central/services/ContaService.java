@@ -9,7 +9,7 @@ import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.exceptions.TransferenciaZeradaException;
 import br.unipar.central.models.Conta;
 import br.unipar.central.repositories.ContaDAO;
-import br.unipar.central.utils.qtdDigitos;
+import br.unipar.central.utils.QtdDigitosUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -74,11 +74,11 @@ public class ContaService {
             throw new CampoNaoInformadoException("Tipo da conta");
         }
         
-        if(qtdDigitos.qtdDigitosAntesVirgula(conta.getSaldo()) > 15){
+        if(QtdDigitosUtils.qtdDigitosAntesVirgula(conta.getSaldo()) > 15){
             throw new CampoExcedidoException("Número de casas após a virgula do saldo de uma conta", 15);
         }
         
-        if(qtdDigitos.qtdDigitosDepoisVirgula(conta.getSaldo()) > 2){
+        if(QtdDigitosUtils.qtdDigitosDepoisVirgula(conta.getSaldo()) > 2){
             throw new CampoExcedidoException("Número de casas antes a virgula do saldo de uma conta", 2);
         }
     }

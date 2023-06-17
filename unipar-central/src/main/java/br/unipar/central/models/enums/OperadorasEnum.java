@@ -4,17 +4,19 @@ package br.unipar.central.models.enums;
 import java.util.Random;
 
 public enum OperadorasEnum {
-    TIM(1, 41),
-    VIVO(2, 15),
-    CLARO(3, 21),
-    OI(4, 31);
+    TIM(1, 41, "Tim"),
+    VIVO(2, 15, "Vivo"),
+    CLARO(3, 21, "Claro"),
+    OI(4, 31, "Oi");
     
     int codigoOperadora;
     int codigo;
+    String descricao;
 
-    private OperadorasEnum(int codigoOperadora, int codigo) {
+    private OperadorasEnum(int codigoOperadora, int codigo, String descricao) {
         this.codigoOperadora = codigoOperadora;
         this.codigo = codigo;
+        this.descricao = descricao;
     }
 
     public int getCodigo() {
@@ -24,7 +26,11 @@ public enum OperadorasEnum {
     public int getCodigoOperadora() {
         return codigoOperadora;
     }
-    
+
+    public String getDescricao() {
+        return descricao;
+    }
+
     public static OperadorasEnum paraEnum(int codigo){
         OperadorasEnum tipo = null;
 

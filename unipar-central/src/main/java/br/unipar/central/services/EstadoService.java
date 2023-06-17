@@ -8,7 +8,6 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.models.Estado;
 import br.unipar.central.repositories.EstadoDAO;
-import br.unipar.central.repositories.PaisDAO;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -26,10 +25,9 @@ public class EstadoService {
             CampoExcedidoException
             {
         
-        PaisService paisServ = new PaisService(new PaisDAO());
-        
+
         try{
-            paisServ.validar(estado.getPais());
+            PaisService.validar(estado.getPais());
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "É obrigatório que um estado possua um país válido:\n" + e.getMessage());
         }

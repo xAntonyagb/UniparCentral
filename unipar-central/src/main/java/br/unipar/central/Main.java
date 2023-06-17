@@ -10,6 +10,7 @@ public class Main {
         
         
         System.out.println(OperadorasEnum.values()[1].ordinal());
+        
 //        
 //        
 //        //Executar testes do service

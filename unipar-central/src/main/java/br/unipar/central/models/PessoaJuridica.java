@@ -51,7 +51,7 @@ public class PessoaJuridica extends Pessoa {
 
     @Override
     public String toString() {
-        return "PessoaJuridica{" + "razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", cnaePrincipal=" + cnaePrincipal + ", fantasia=" + fantasia + '}';
+        return super.toString() + "PessoaJuridica{" + "razaoSocial=" + razaoSocial + ", cnpj=" + cnpj + ", cnaePrincipal=" + cnaePrincipal + ", fantasia=" + fantasia + '}';
     }
     
 }

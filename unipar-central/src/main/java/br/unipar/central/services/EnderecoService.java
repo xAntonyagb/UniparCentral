@@ -8,7 +8,7 @@ import br.unipar.central.exceptions.EntidadeNaoInformadaException;
 import br.unipar.central.exceptions.IdInvalidoException;
 import br.unipar.central.models.Endereco;
 import br.unipar.central.repositories.EnderecoDAO;
-import static br.unipar.central.utils.qtdDigitos.qtdDigitos;
+import static br.unipar.central.utils.QtdDigitosUtils.qtdDigitos;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -31,12 +31,8 @@ public class EnderecoService {
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "É obrigatório que a cidade seja válida!");
         }
-                
-        if(end == null){
-            throw new EntidadeNaoInformadaException("É obrigatório que o endereço seja válido!");
-        }
         
-                try{
+        try{
             PessoaService.validar(end.getPessoa());
         } catch (Exception e){
             JOptionPane.showMessageDialog(null, "É obrigatório que a pessoa seja válida!");

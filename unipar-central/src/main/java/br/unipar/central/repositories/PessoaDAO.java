@@ -257,7 +257,7 @@ public class PessoaDAO {
                 pessoa = PessoaFisicaInstance(rs);
             
             } else {
-
+                DataBaseUtils.closeResultSet(rs);
                 DataBaseUtils.closePreparedStatment(pstmt);
                 DataBaseUtils.closeConnection();
 
